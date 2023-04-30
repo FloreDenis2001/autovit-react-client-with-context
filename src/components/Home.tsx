@@ -5,16 +5,30 @@ import Masina from '../models/Masina';
 import ServiceCar from '../services/Api';
 import { Car } from './Car';
 import { ContextMasini } from '../context/MasiniProvider';
+import MasinaContextType from '../models/MasinaContextType';
 
 
 const Home: React.FC = () => {
+    let serviceCar = new ServiceCar();
 
-    //@ts-ignore
-    let [masina,setMasina]=useContext(ContextMasini);
+    let {masini,setMasini}=useContext(ContextMasini) as MasinaContextType;
 
     let navigate=useNavigate();
+    let load = async () => {
+        if (masini.length === 0) {
+            let masini= await serviceCar.getAllCars();
+            setMasini(masini);
+        } else {
+            console.log("test")
+        };
+    }
+    
+    
+    useEffect(()=>{
 
-  
+        load();
+
+    },[])
 
    
 
@@ -39,12 +53,12 @@ const Home: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                   {/* { masini.length && 
+                   { masini.length && 
                        (masini as Masina[]).map(car=>{
                             return <Car car={car} key={car.id}/>
                         })
                         
-                    } */}
+                    }
                 </tbody>
             </table>
 
