@@ -1,26 +1,27 @@
 import { createContext, useState } from "react";
 import Masina from "../models/Masina";
 import ServiceCar from "../services/Api";
+import MasinaContextType from "../models/MasinaContextType";
 type Props = {
     children?: React.ReactNode;
 }
 
 
 
-export const  ContextMasini = createContext(({ masina: [] as Masina[], setMasini: (masini: Masina[]) => { } }));
+export const ContextMasini = createContext<MasinaContextType | null>(null);
 
 
-const MasinaProvider: React.FC<Props> =  ({ children }) => {
+const MasinaProvider: React.FC<Props> = ({ children }) => {
 
-    const [masina, setMasina] = useState([] as Masina[]);
-    let serviceCar= new ServiceCar();
-       
-           if(masina.length===0){ 
-                  serviceCar.getAllCars().then(data=>{console.log(data);setMasina(data)})}else {console.log("test")
-          };
-        
-    //@ts-ignore
-    return  <ContextMasini.Provider  value={{masina,setMasina}}> {children}  </ContextMasini.Provider>
+    const [masini, setMasina] = useState<Masina[]>([]);
+    
+   
+     function setMasini(masini:Masina[]):void{
+
+        setMasina(masini);
+    }
+
+    return <ContextMasini.Provider value={{ masini, setMasini }}> {children}  </ContextMasini.Provider>
 };
 
 export default MasinaProvider

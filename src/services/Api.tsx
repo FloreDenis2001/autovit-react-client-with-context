@@ -100,7 +100,7 @@ class ServiceCar {
     }
   
   
-    findCarById = async (id: number|undefined): Promise<Masina> => {
+    findCarById = async (id: string|undefined): Promise<Masina> => {
       let data = await this.api<null, Masina>("/masini/findById/" + id, "GET", null, "");
   
       if (data.status === 200) {
